@@ -1,0 +1,69 @@
+body{
+    width: 100%;
+    height: 100%;
+    background: rgb(179, 69, 69);    
+}
+
+.fillimg{
+    display: flex;
+    background-repeat: no-repeat;
+    background-size: cover;
+    align-items: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    min-width: 100%;
+    height: 100vh;
+    background-position: center center;
+}
+
+.introImg{
+    background-image: url('https://www.codeur.com/tuto/wp-content/uploads/2022/01/pexels-roberto-nickson-2559941-1.jpg');
+}
+.filldiv
+{
+    height: 100vh;
+}
+
+.mainFont  {
+    font-family: 'Roboto';
+    position: relative;
+    left:30px;
+}
+
+.introText{
+    background-color: rgba(0, 0, 0, 0.6); /* 75% transparent */
+    
+    min-width: 100%;
+    min-height: 15%;
+    align-self: center;
+    color: white;
+    padding-left: 30px;
+    padding-top: 0px;
+    position: absolute;
+    top: 40%; right: 0px;
+}
+.introText > h1{
+    font-size: 4vh;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);   
+    
+}
+
+.introFooter{
+    background-color: rgb(216, 42, 42); 
+    bottom: 0px;
+    z-index: 2;
+}
+.userImg{
+    aspect-ratio: 1/1;
+    width: 100px;
+    border-radius: 50%;
+    float : right;
+    position: absolute;
+    top: -50px; right: 10%;
+    outline-style:solid;
+    outline-width: 5px;
+    outline-color: antiquewhite;
+    z-index: 1;
+}

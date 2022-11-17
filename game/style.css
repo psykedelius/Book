@@ -1,0 +1,31 @@
+html, body {
+    height: 100%;
+    width: 100%;
+  }
+  
+  .parent{
+    background: grey;
+    position: relative;
+    display: flex;
+    height: 500px;
+    width: 500px;
+  } 
+  
+  
+  canvas {
+    border: 1px solid black;
+    background-color: lightblue;
+  }
+  
+  .playerBloc{
+    background: red; 
+    position: absolute;
+    object-fit: scale-down;
+        
+        background-image: url(ressources/pirate.png);
+        background-repeat: no-repeat;
+        
+        width: 64px;
+        height: 40px;
+  }
+  
