@@ -60,8 +60,7 @@ function checkIsVerticalCollision(object1,object2){
     if (object1.y <= object2.y && object1.y+object1.height >= object2.y)
     {return -1;}
     //if object1 is under
-    else if (object1.y <= object2.y+object2.height && 
-             object1.y+object1.height >= object2.y+object2.height)
+    else if (object1.y <= object2.y+object2.height && object1.y+object1.height >= object2.y+object2.height)
     {return 1;}
     else
     {return 0;}

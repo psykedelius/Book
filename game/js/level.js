@@ -45,6 +45,8 @@ function Level( lvlNumber )
     createTile(canvas.width-100,0,100,canvas.height-100,'collider','#8f6335');//trunc
     createTile(canvas.width/3-50,canvas.height-100,300,50,'collider','#8f6335');//bloc
     createTile(canvas.width/3+150,canvas.height-150,50,50,'collider','#8f6335');//bloc
+    createTile(canvas.width/3+150,canvas.height-300,50,50,'collider','#8f6335');//bloc
+
    // createTile(canvas.width/3*2-200,canvas.height-150,100,20,'collider','#8f6335');//bloc
   //  createTile(100,canvas.height-150,200,100,'collider','#498f4b');//ground
    // createTile(350,canvas.height-150,200,100,'collider','#498f4b');//ground

@@ -19,12 +19,12 @@
 
       //Player Vars
       this.grounded = false;
-      this.friction = 0.2;
+      this.friction = 0.5;
       this.groundFriction = 0.5;
       this.jumping = false;
       this.airBorn = false
-      this.jumpForce = 8;
-      this.gravity = 0.1;
+      this.jumpForce = 15;
+      this.gravity = 0.3;
       this.playerRect;
       this.tileRect;
 
@@ -32,7 +32,7 @@
       this.x_velocity = 0;
       this.x_velocityMax = 4;
       this.y_velocity = 0;
-      this.y_velocityMax = 8;
+      this.y_velocityMax = 15;
 
       //atlas coords
       var spriteSheet = new Image();
@@ -98,7 +98,6 @@
                           height:playerRect.height-26}
         ctx.fillStyle = 'orange';
         ctx.fillRect(hitBoxRect.x,hitBoxRect.y,hitBoxRect.width,hitBoxRect.height);
-                  
   
         verticalRect        = hitBoxRect;
         verticalRect.y      = hitBoxRect.y-5;
@@ -110,15 +109,9 @@
                               y:hitBoxRect.y+5,
                               width:hitBoxRect.width+8,
                               height:hitBoxRect.height-15}
-        
         ctx.fillStyle = 'blue';
         ctx.fillRect(horizontalRect.x,horizontalRect.y,horizontalRect.width,horizontalRect.height);
-      /*  let horizontalRect = {
-                          x: this.ScreenPosx+20+this.x_velocity,
-                          y: this.ScreenPosy+13,
-                          width:this.width-40,
-                          height: this.height-26
-        }*/
+
         //ctx.fillStyle = 'red';
        // ctx.fillRect(horizontalRect.x,horizontalRect.y,horizontalRect.width,horizontalRect.height);
         console.log(playerRect.width);
@@ -178,12 +171,23 @@
                   ctx.fillStyle = 'red';
                   ctx.fillRect(tileRect.x,tileRect.y,tileRect.width,tileRect.height);
                 }
+                if (checkIsVerticalCollision(verticalRect,tileRect)==1)
+                {
+                  collisionDatas.up=true;
+                  hitBoxRect.y = tileRect.y + tileRect.height;
+                 // this.ScreenPosy = tileRect.y-this.height;
+                  ctx.fillStyle = 'yellow';
+                  ctx.fillRect(tileRect.x,tileRect.y,tileRect.width,tileRect.height);
+                }
             }
           //  console.log("checking tile "+index+" at x= "+tileRect.y+" H= "+checkIsHorizontalCollision(horizontalRect,tileRect)+"  V= "+checkIsVerticalCollision(verticalRect,tileRect))
         }
 
 
         //End For Loop
+        if (collisionDatas.up==true){
+          this.y_velocity = 0;
+        }
         if (collisionDatas.down==true){
           this.grounded =  true;
           this.airBorn = false;
