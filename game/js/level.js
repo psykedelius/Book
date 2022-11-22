@@ -1,4 +1,7 @@
 
+var levelBounds = {'x':0,'y':0,'width':0,'height':0};
+
+
 class Rectangle{
     constructor(l,t,w,h){
         this.l = this.ol = l;
@@ -25,19 +28,26 @@ class levelTile  {
         this.type = 'collider';
         this.color = '#cc8539';
         this.hitbox = new Rectangle(this.x,this.y,this.width,this.height);
+       
+        this.draw = function(){
+            ctx.fillStyle = this.color;
+            ctx.fillRect(this.x,this.y, this.width, this.height);
+        }
       }
 };
 var levelTileMaps = [];
 
 function Level( lvlNumber )
 {
-    createTile(0,20,100,200,'collider', '#cc8539');
-    createTile(0,canvas.height-50,canvas.width/2,100,'collider','#498f4b');//ground
+    levelBounds = {'x':0,'y':0,'width':canvas.width,'height':canvas.height};
+    createTile(0,300,100,300,'collider', '#cc8539');
+    createTile(0,canvas.height-75,canvas.width/2,100,'collider','#498f4b');//ground
     createTile(canvas.width-100,0,100,canvas.height-100,'collider','#8f6335');//trunc
-    createTile(canvas.width/3-100,canvas.height-75,300,100,'collider','#8f6335');//bloc
-    createTile(canvas.width/3*2-300,canvas.height-150,100,100,'collider','#8f6335');//bloc
-    createTile(canvas.width/3*2-200,canvas.height-150,100,20,'collider','#8f6335');//bloc
-
+    createTile(canvas.width/3-50,canvas.height-100,300,50,'collider','#8f6335');//bloc
+    createTile(canvas.width/3+150,canvas.height-150,50,50,'collider','#8f6335');//bloc
+   // createTile(canvas.width/3*2-200,canvas.height-150,100,20,'collider','#8f6335');//bloc
+  //  createTile(100,canvas.height-150,200,100,'collider','#498f4b');//ground
+   // createTile(350,canvas.height-150,200,100,'collider','#498f4b');//ground
     this.draw = function(){
         for (let index = 0; index < levelTileMaps.length; index++) {
             const tile = levelTileMaps[index];
@@ -48,15 +58,13 @@ function Level( lvlNumber )
             }
     
     }
-    console.log('start setup level');
+    console.log('start setup level '+levelTileMaps.length);
     
     
 }
 ///creating tiles
 function createTile (x,y,w,h,type,col) {
     //
-    //let tempLevelMap = [levelTileMaps.length+1];
-    
     newTile = new levelTile();
     newTile.x = x;
     newTile.y = y;

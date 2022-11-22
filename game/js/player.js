@@ -1,7 +1,7 @@
 
     // Clamp number between two values with the following line:
     const keyDict = {};
-    const limits = {Xmin:10,Xmax:600,Ymin:10,Ymax:1000}
+    const limits = {Xmin:0,Xmax:2000,Ymin:0,Ymax:2000}
     var frameRate = 1000/8;
     var debug = true;
 
@@ -22,7 +22,8 @@
       this.friction = 0.2;
       this.groundFriction = 0.5;
       this.jumping = false;
-      this.jumpForce = 6;
+      this.airBorn = false
+      this.jumpForce = 8;
       this.gravity = 0.1;
       this.playerRect;
       this.tileRect;
@@ -54,7 +55,7 @@
         } 
       }
       this.collider = new Rectangle(this.x,this.y,this.width,this.height);
-      
+     
       //playerCollider = new Rectangle(hitbox.x,hitbox.y,hitbox.width,hitbox.height);
 
       //console.log("Start : this.ScreenPosx ="+this.ScreenPosx+"  this.ScreenPosy="+this.ScreenPosy);
@@ -69,105 +70,144 @@
       }
       //update Function
         this.step = function() {
-        
-        
         this.state();
-        this.gravity();
+       // this.gravity();
         this.collision();
         
 
         this.move();
         this.update();
       }
-
+      let hitBoxRect;
+      let verticalRect;
+      let horizontalRect;
       this.collision = function(){
-      let collisionDirection = {'x':0,'y':0};
-       let playerRect ={'x':this.ScreenPosx,
-       'y':this.ScreenPosy,
-       'width':this.width,
-       'height':this.height}
 
-       console.log('Start collision Loop '+collisionDirection.x+'/'+collisionDirection.y);
-//for each collider in the map
-        for (let index = 0; index < levelTileMaps.length; index++) {
-          let curTile = levelTileMaps[index];
-          //console.log('boxCollision = '+ collider.hitbox.rect );//"+this.curTile.hitbox );
-         // console.log('boxCollision = '+ boxCollision(this.collider,this.curTile.hitbox) );
-          let deltaX = 0;
-          let deltaY = 0;
-          let tileRect ={'x':curTile.x,
-                            'y':curTile.y,
-                            'width':curTile.width,
-                            'height':curTile.height}
+      let collisionDirection = {'l':0,'r':0,'t':0,'d':0};
+      let correctedPos = {'x':0,'y':0};
+      let collidingBlocks = [] ;
+        let offsetX = 25;
+        let playerRect ={ x:this.ScreenPosx+this.x_velocity,
+                          y:this.ScreenPosy,
+                          width:this.width,
+                          height:this.height}
 
-          //let tileRect    = new rect(curTile.x,curTile.y,curTile.width,curTile.height);
-          if (checkIntersection( playerRect,tileRect))
-          {
-            let groundCheck = checkIsGrounded(playerRect,tileRect);
-            if (Math.abs(groundCheck) >0){
-              collisionDirection.y = groundCheck;
-              curTile.color = '#cc8539';
+        hitBoxRect ={     x:playerRect.x+offsetX,
+                          y:playerRect.y+20,
+                          width:playerRect.width-offsetX*2,
+                          height:playerRect.height-26}
+        ctx.fillStyle = 'orange';
+        ctx.fillRect(hitBoxRect.x,hitBoxRect.y,hitBoxRect.width,hitBoxRect.height);
+                  
+  
+        verticalRect        = hitBoxRect;
+        verticalRect.y      = hitBoxRect.y-5;
+        verticalRect.height = hitBoxRect.height+10;
+       // ctx.fillStyle = 'blue';
+        //ctx.fillRect(verticalRect.x,verticalRect.y,verticalRect.width,verticalRect.height);
+        //horizontalRect        = hitBoxRect;
+        horizontalRect ={     x:hitBoxRect.x-4,
+                              y:hitBoxRect.y+5,
+                              width:hitBoxRect.width+8,
+                              height:hitBoxRect.height-15}
+        
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(horizontalRect.x,horizontalRect.y,horizontalRect.width,horizontalRect.height);
+      /*  let horizontalRect = {
+                          x: this.ScreenPosx+20+this.x_velocity,
+                          y: this.ScreenPosy+13,
+                          width:this.width-40,
+                          height: this.height-26
+        }*/
+        //ctx.fillStyle = 'red';
+       // ctx.fillRect(horizontalRect.x,horizontalRect.y,horizontalRect.width,horizontalRect.height);
+        console.log(playerRect.width);
+        let curColliders = [];
+        let collisionDatas= {'left':false,
+                          'right':false,
+                          'top':false,
+                          'down':false}
+        //for each collider in the map //
+        for (let index = 0; index < levelTileMaps.length; index++) 
+        {
+          let curTile  = levelTileMaps[index];
+          let tileRect ={ x:curTile.x,
+                          y:curTile.y,
+                          width:curTile.width,
+                          height:curTile.height}
+          
+            
+          console.log("checking tile "+index+" at x= "+tileRect.y+" H= "+checkIsHorizontalCollision(horizontalRect,tileRect)+"  V= "+checkIsVerticalCollision(verticalRect,tileRect))
+          //check if any collision with tileRect
+          //if (checkIntersection())
+          let nHorizontalCol = checkIsHorizontalCollision(horizontalRect,tileRect)
+            //check if horizontal collision with tileRect
+            if (nHorizontalCol=="right")
+            {
+              curColliders.push(curTile);
+              hitBoxRect.x = tileRect.x-hitBoxRect.width-5+this.x_velocity*2;
+              //hitBoxRect.x -= this.x_velocity;
+              this.x_velocity = 0;
+              collisionDatas.right=true;
+              ctx.fillStyle = 'blue';
+              ctx.fillRect(tileRect.x,tileRect.y,tileRect.width,tileRect.height);
+
             } 
-            
-            let isHorizontalCollision = checkIsHorizontalCollision(playerRect,tileRect);
-            if (Math.abs(isHorizontalCollision)  != 0) {collisionDirection.x =isHorizontalCollision; }
-
-
-            console.log('collision collisionDirection  '+collisionDirection.x+" / "+collisionDirection.y);
-
-
-
-            //si l'objet est plus bas et que sla position de player est compris dans la largeur
-            //if player is above the tile
-            if (tileRect.y<playerRect.y+playerRect.height)
+            //if collide from the left
+            else if (nHorizontalCol=="left")
             {
-              //if player is in the range of the tile width
-              if (playerRect.x+playerRect.width>tileRect.x && playerRect.x<tileRect.x+tileRect.width){
-               // console.log('collision Ground touch '+(playerRect.y+playerRect.height-tileRect.y));
-              }else{
-               // console.log('collision wall touch');
+              if (nHorizontalCol=="left")
+              {
+                curColliders.push(curTile);
+                hitBoxRect.x = tileRect.x+tileRect.width+5+this.x_velocity*2;
+               // hitBoxRect.x -= this.x_velocity;
+                this.x_velocity = 0;
+                collisionDatas.left=true;
+                ctx.fillStyle = 'pink';
+                ctx.fillRect(tileRect.x,tileRect.y,tileRect.width,tileRect.height);
               }
             }
-            else{
-              //if not above the tile is it a wall?
-              //
-            }
-            console.log(playerRect.x+playerRect.width-tileRect.x);
-            console.log("this.collision="+checkIntersection( playerRect,tileRect));
-          }
-          //if player bounds collide with a listed collider
-          if (//checkIntersection(this.collision,curTile))/*
-            this.ScreenPosx <= curTile.x + curTile.width &&
-            this.ScreenPosx + this.width >= curTile.x &&
-            this.ScreenPosy <= curTile.y + this.height &&
-            this.ScreenPosy + this.height >= curTile.y
-          ) {
-            deltaX =  this.ScreenPosx-curTile.x + curTile.width;
-            deltaY =  this.ScreenPosy - curTile.y + this.height;
-            
-            //if touch collider but not grounded yet
-            if (this.ScreenPosy+this.height>curTile.y )
+          //check if vertical collision with tileRect
+            if (checkIsVerticalCollision(verticalRect,tileRect)!=0)
             {
-              if(this.jumping && this.y_velocity<0){
-                this.grounded   = false;
-               // this.jumping = false;
-                }else{
-                this.grounded   = true;
-                this.jumping = false;
-              }
-              //console.log('init jump ungrounded !'+ this.grounded );
-              
-             // this.ScreenPosy =  curTile.y-this.height;
-              break;
-              
+              //console.log('checkIsVerticalCollision down this.y_velocity '+checkIsVerticalCollision(verticalRect,tileRect));
+                if (checkIsVerticalCollision(verticalRect,tileRect)==-1)
+                {
+                  collisionDatas.down=true;
+                 // this.ScreenPosy = tileRect.y-this.height;
+                  ctx.fillStyle = 'red';
+                  ctx.fillRect(tileRect.x,tileRect.y,tileRect.width,tileRect.height);
+                }
             }
-          }
-          //else Check Last ground status
-          else
-          {
-            this.grounded = false;
-          }
+          //  console.log("checking tile "+index+" at x= "+tileRect.y+" H= "+checkIsHorizontalCollision(horizontalRect,tileRect)+"  V= "+checkIsVerticalCollision(verticalRect,tileRect))
         }
+
+
+        //End For Loop
+        if (collisionDatas.down==true){
+          this.grounded =  true;
+          this.airBorn = false;
+          this.y_velocity = 0;
+          this.jumping = false;
+        }else{
+          this.grounded =  false;
+          this.airBorn = true;
+          this.y_velocity += this.friction;
+          this.y_velocity = (this.y_velocity>this.y_velocityMax) ? this.y_velocity = this.y_velocityMax : this.y_velocity+=this.friction ;
+        }
+
+          hitBoxRect.x-= offsetX;
+          this.ScreenPosx =  hitBoxRect.x;
+        
+        let i= 1;
+        displayText('playerPos = '+this.ScreenPosx+'/'+this.ScreenPosy,20,25*i);i+=1;
+        displayText( 'grounded = '+collisionDatas.down,20,25*i);i+=1;
+        displayText('collisionDatas left = '+collisionDatas.left+'  right = '+collisionDatas.right,20,25*i);i+=1;
+        displayText(('under! = '+ (levelTileMaps[0].y-hitBoxRect.y+hitBoxRect.height)),20,25*i);i+=1;
+        displayText(('range! = '+ (hitBoxRect.x + hitBoxRect.width)+' >= '+levelTileMaps[0].x +' && '+ hitBoxRect.x+' <= '+(levelTileMaps[0].x+levelTileMaps[0].width)),20,25*i);i+=1;
+        displayText(('levelBounds! = '+ levelBounds.width+'/'+levelBounds.height),20,25*i);i+=1;
+        //this.ScreenPosy = hitBoxRect.y-13;
+        //console.log('collision collisionDirection  '+collisionDirection.x+" / "+collisionDirection.y);
       }
 
       this.gravity = function()
@@ -178,24 +218,24 @@
           if (this.jumping)
           {
             this.y_velocity += this.friction;
-            this.ScreenPosy += this.y_velocity;
+           // this.ScreenPosy += this.y_velocity;
             this.y_velocity = (this.y_velocity>this.y_velocityMax) ? this.y_velocity = this.y_velocityMax : this.y_velocity+=this.friction ;
           }
           else
           {
             this.y_velocity = 0;
           }
-          this.ScreenPosy += this.y_velocity;
+          
         }
         else
         {
           this.y_velocity += this.friction;
-          this.ScreenPosy += this.y_velocity;
+          //this.ScreenPosy += this.y_velocity;
           this.y_velocity = (this.y_velocity>this.y_velocityMax) ? this.y_velocity = this.y_velocityMax : this.y_velocity+=this.friction ;
-      }
+        }
         
       }
-    
+      
     this.state = function(){
         
        // this.prevState = this.curState;
@@ -219,7 +259,7 @@
         }
       }
         this.prevState = this.curState;
-      }
+    }
 
       //Update Keys
       this.updateKeyDict = (ev) => {
@@ -236,14 +276,17 @@
           keyDict.ArrowUp   && (keyDict.ArrowLeft || keyDict.ArrowRight) ||
           keyDict.ArrowDown && (keyDict.ArrowLeft || keyDict.ArrowRight) ? 1 : 1;
           
-        dist *= this.x_velocity;
+        
         //store the last player position
         this.prevx = this.ScreenPosx;
         this.prevy = this.ScreenPosy;
 
         //update player Position
         if (keyDict.ArrowLeft)  
-          {this.ScreenPosx -= dist; this.isFacingRight=false;this.x_velocity+=0.5;}
+          { this.isFacingRight=false;this.x_velocity-=0.5;}
+          if (keyDict.ArrowRight)  
+          { this.isFacingRight=true;this.x_velocity+=0.5;}
+  
         if (keyDict.ArrowUp )
         {
           if (this.grounded && !this.jumping)
@@ -253,17 +296,13 @@
             this.jumping = true;
           }
         }     
-        if (keyDict.ArrowRight)  {this.ScreenPosx += dist; this.isFacingRight=true;this.x_velocity+=0.5;}
-        if (keyDict.ArrowDown)   this.ScreenPosy += dist;
-        if (!keyDict.ArrowLeft && !keyDict.ArrowRight){
-          this.x_velocity =this.x_velocity>0?this.x_velocity-=this.groundFriction:this.x_velocity=0;
-          //dist*= this.x_velocity;
-          if (this.isFacingRight)
-          this.ScreenPosx += dist;
-          else{
-            this.ScreenPosx -= dist;
-          } 
+        //if (keyDict.ArrowDown)   this.ScreenPosy += dist;
+        if (!keyDict.ArrowLeft && !keyDict.ArrowRight ||(keyDict.ArrowLeft && keyDict.ArrowRight))
+        {
+          this.x_velocity =Math.abs( this.x_velocity)<0.2?this.x_velocity*=this.groundFriction : this.x_velocity=0;
+
         }
+        
 
         //limit x speed to max value
         if (this.x_velocity>this.x_velocityMax)
@@ -274,7 +313,18 @@
          // console.log('this.x_velocity='+this.x_velocity+'  this.jumping='+this.jumping);
          // this.x_velocity+=this.friction;
         }
-        
+        dist *= this.x_velocity;
+        this.ScreenPosx += dist;
+
+        this.ScreenPosy += this.y_velocity;
+        //dist*= this.x_velocity;
+       /* if (this.isFacingRight)
+        this.ScreenPosx += dist;
+        else{
+          this.ScreenPosx -= dist;
+        } */
+
+        //console.log('this.isFacingRight '+this.isFacingRight+' x_velocity = '+this.x_velocity);
        // if (this.y_velocity>this.y_velocityMax){this.y_velocity = this.y_velocityMax; }
        // if (this.y_velocity<(-this.y_velocityMax)){this.y_velocity = -this.y_velocityMax; }
         //console.log(" this.x_velocity="+this.x_velocity);
@@ -282,6 +332,7 @@
 
       this.move = function() {
         //console.log("move");
+        
         if (this.ScreenPosx<limits.Xmin){this.ScreenPosx = limits.Xmin}
         if (this.ScreenPosx>limits.Xmax){this.ScreenPosx = limits.Xmax}
         if (this.ScreenPosy<limits.Ymin){this.ScreenPosy = limits.Ymin}
@@ -294,7 +345,7 @@
         this.step();
         
         //ctx.fillStyle = "green";
-        //ctx.fillRect(this.ScreenPosx, this.ScreenPosy, this.width, this.height);
+       // ctx.fillRect(this.ScreenPosx, this.ScreenPosy, this.width, this.height);
        //isFacingRight
         let atlasSrcCoord = animator(this.curState).atlasCoord;
         this.srcX = atlasSrcCoord.srcX;
@@ -335,13 +386,9 @@
       else { return true;}
     }
     
-
-  
-    /*
-    function engine() {
-      update();
-      window.requestAnimationFrame(engine);*/
-    
-    
-    
-    
+    function displayText(textToDisplay,x,y){
+      //debugContent += textToDisplay;
+      ctx.font = '28px serif';
+      ctx.fillStyle = "black";
+      ctx.fillText(textToDisplay, x, y);
+    }

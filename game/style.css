@@ -3,18 +3,22 @@ html, body {
     width: 100%;
   }
   
-  .parent{
+  #parent{
     background: grey;
     position: relative;
     display: flex;
-    height: 500px;
-    width: 500px;
+    height: 600px;
+    width: 1600px;
   } 
   
   
+
   canvas {
+
     border: 1px solid black;
     background-color: lightblue;
+    margin: auto;
+    padding: auto;
   }
   
   .playerBloc{

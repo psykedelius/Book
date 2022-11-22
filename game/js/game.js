@@ -11,6 +11,9 @@ var level;
 window.onload = function(e) {
 
   canvas = document.getElementById('game-canvas');
+  var parent = document.getElementById("parent");
+  canvas.width = parent.offsetWidth;
+  canvas.height = parent.offsetHeight;
   ctx = canvas.getContext('2d');
   //layer2 = document.getElementById("layer2");
   //ctx2 = layer2.getContext("2d");
