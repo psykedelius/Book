@@ -19,20 +19,20 @@
 
       //Player Vars
       this.grounded = false;
-      this.friction = 0.5;
+      this.friction = 0.4;
       this.groundFriction = 0.5;
       this.jumping = false;
       this.airBorn = false
       this.jumpForce = 15;
-      this.gravity = 0.3;
+      const gravity = 0.2;
       this.playerRect;
       this.tileRect;
 
-      this.speed = 4;
+      this.speed = 1;
       this.x_velocity = 0;
-      this.x_velocityMax = 4;
+      this.x_velocityMax = 2;
       this.y_velocity = 0;
-      this.y_velocityMax = 15;
+      this.y_velocityMax = 10;
 
       //atlas coords
       var spriteSheet = new Image();
@@ -59,8 +59,8 @@
       //playerCollider = new Rectangle(hitbox.x,hitbox.y,hitbox.width,hitbox.height);
 
       //console.log("Start : this.ScreenPosx ="+this.ScreenPosx+"  this.ScreenPosy="+this.ScreenPosy);
-     
-      setInterval(step,1000/8);
+      requestAnimationFrame(step);
+      //setInterval(step,frameRate);
       let atlasSrcCoord = animator('idle').atlasCoord;
       setupPlayer();
 
@@ -68,15 +68,16 @@
         console.log("Setup Player ");
         this.collision= new hitbox(this.x,this.y,this.width,this.height);
       }
-      //update Function
-        this.step = function() {
-        this.state();
-       // this.gravity();
-        this.collision();
-        
 
+
+      //update Function
+      this.step = function() {
+        this.state();
+        // this.gravity();
+        this.collision();
         this.move();
         this.update();
+        requestAnimationFrame(step);
       }
       let hitBoxRect;
       let verticalRect;
@@ -96,8 +97,8 @@
                           y:playerRect.y+20,
                           width:playerRect.width-offsetX*2,
                           height:playerRect.height-26}
-        ctx.fillStyle = 'orange';
-        ctx.fillRect(hitBoxRect.x,hitBoxRect.y,hitBoxRect.width,hitBoxRect.height);
+       // ctx.fillStyle = 'orange';
+       // ctx.fillRect(hitBoxRect.x,hitBoxRect.y,hitBoxRect.width,hitBoxRect.height);
   
         verticalRect        = hitBoxRect;
         verticalRect.y      = hitBoxRect.y-5;
@@ -109,12 +110,12 @@
                               y:hitBoxRect.y+5,
                               width:hitBoxRect.width+8,
                               height:hitBoxRect.height-15}
-        ctx.fillStyle = 'blue';
-        ctx.fillRect(horizontalRect.x,horizontalRect.y,horizontalRect.width,horizontalRect.height);
+       // ctx.fillStyle = 'blue';
+       // ctx.fillRect(horizontalRect.x,horizontalRect.y,horizontalRect.width,horizontalRect.height);
 
         //ctx.fillStyle = 'red';
        // ctx.fillRect(horizontalRect.x,horizontalRect.y,horizontalRect.width,horizontalRect.height);
-        console.log(playerRect.width);
+        //console.log(playerRect.width);
         let curColliders = [];
         let collisionDatas= {'left':false,
                           'right':false,
@@ -130,7 +131,7 @@
                           height:curTile.height}
           
             
-          console.log("checking tile "+index+" at x= "+tileRect.y+" H= "+checkIsHorizontalCollision(horizontalRect,tileRect)+"  V= "+checkIsVerticalCollision(verticalRect,tileRect))
+         // console.log("checking tile "+index+" at x= "+tileRect.y+" H= "+checkIsHorizontalCollision(horizontalRect,tileRect)+"  V= "+checkIsVerticalCollision(verticalRect,tileRect))
           //check if any collision with tileRect
           //if (checkIntersection())
           let nHorizontalCol = checkIsHorizontalCollision(horizontalRect,tileRect)
@@ -161,13 +162,13 @@
               }
             }
           //check if vertical collision with tileRect
-            if (checkIsVerticalCollision(verticalRect,tileRect)!=0)
+            else if (checkIsVerticalCollision(verticalRect,tileRect)!=0)
             {
               //console.log('checkIsVerticalCollision down this.y_velocity '+checkIsVerticalCollision(verticalRect,tileRect));
                 if (checkIsVerticalCollision(verticalRect,tileRect)==-1)
                 {
                   collisionDatas.down=true;
-                 // this.ScreenPosy = tileRect.y-this.height;
+                  hitBoxRect.y = tileRect.y-this.height;
                   ctx.fillStyle = 'red';
                   ctx.fillRect(tileRect.x,tileRect.y,tileRect.width,tileRect.height);
                 }
@@ -190,26 +191,27 @@
         }
         if (collisionDatas.down==true){
           this.grounded =  true;
-          this.airBorn = false;
+          this.airBorn = false; 
           this.y_velocity = 0;
           this.jumping = false;
         }else{
           this.grounded =  false;
           this.airBorn = true;
           this.y_velocity += this.friction;
+          this.y_velocity += gravity;
           this.y_velocity = (this.y_velocity>this.y_velocityMax) ? this.y_velocity = this.y_velocityMax : this.y_velocity+=this.friction ;
         }
 
           hitBoxRect.x-= offsetX;
-          this.ScreenPosx =  hitBoxRect.x;
+          this.ScreenPosx = Math.round( hitBoxRect.x) ;
         
         let i= 1;
         displayText('playerPos = '+this.ScreenPosx+'/'+this.ScreenPosy,20,25*i);i+=1;
         displayText( 'grounded = '+collisionDatas.down,20,25*i);i+=1;
         displayText('collisionDatas left = '+collisionDatas.left+'  right = '+collisionDatas.right,20,25*i);i+=1;
-        displayText(('under! = '+ (levelTileMaps[0].y-hitBoxRect.y+hitBoxRect.height)),20,25*i);i+=1;
-        displayText(('range! = '+ (hitBoxRect.x + hitBoxRect.width)+' >= '+levelTileMaps[0].x +' && '+ hitBoxRect.x+' <= '+(levelTileMaps[0].x+levelTileMaps[0].width)),20,25*i);i+=1;
-        displayText(('levelBounds! = '+ levelBounds.width+'/'+levelBounds.height),20,25*i);i+=1;
+        //displayText(('under! = '+ (levelTileMaps[0].y-hitBoxRect.y+hitBoxRect.height)),20,25*i);i+=1;
+        //displayText(('range! = '+ (hitBoxRect.x + hitBoxRect.width)+' >= '+levelTileMaps[0].x +' && '+ hitBoxRect.x+' <= '+(levelTileMaps[0].x+levelTileMaps[0].width)),20,25*i);i+=1;
+        displayText(('fps! = '+ deltaTime),20,25*i);i+=1;
         //this.ScreenPosy = hitBoxRect.y-13;
         //console.log('collision collisionDirection  '+collisionDirection.x+" / "+collisionDirection.y);
       }
@@ -278,7 +280,7 @@
         // Determine move distance to account diagonal move: 1/Math.sqrt(2) = ~0.707
         let dist =
           keyDict.ArrowUp   && (keyDict.ArrowLeft || keyDict.ArrowRight) ||
-          keyDict.ArrowDown && (keyDict.ArrowLeft || keyDict.ArrowRight) ? 1 : 1;
+          keyDict.ArrowDown && (keyDict.ArrowLeft || keyDict.ArrowRight) ? 1.5 : 1;
           
         
         //store the last player position
@@ -295,16 +297,14 @@
         {
           if (this.grounded && !this.jumping)
           {
-            //this.grounded = false;
             this.y_velocity -= this.jumpForce;
             this.jumping = true;
           }
         }     
         //if (keyDict.ArrowDown)   this.ScreenPosy += dist;
-        if (!keyDict.ArrowLeft && !keyDict.ArrowRight ||(keyDict.ArrowLeft && keyDict.ArrowRight))
+        if (!keyDict.ArrowLeft && !keyDict.ArrowRight || (keyDict.ArrowLeft && keyDict.ArrowRight))
         {
-          this.x_velocity =Math.abs( this.x_velocity)<0.2?this.x_velocity*=this.groundFriction : this.x_velocity=0;
-
+          this.x_velocity = Math.abs( this.x_velocity ) < 0.2 ? this.x_velocity*=this.groundFriction : this.x_velocity=0;
         }
         
 
@@ -320,7 +320,8 @@
         dist *= this.x_velocity;
         this.ScreenPosx += dist;
 
-        this.ScreenPosy += this.y_velocity;
+        this.ScreenPosy +=  this.y_velocity;
+        this.ScreenPosy = Math.round(this.ScreenPosy);
         //dist*= this.x_velocity;
        /* if (this.isFacingRight)
         this.ScreenPosx += dist;

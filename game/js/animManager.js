@@ -16,9 +16,9 @@ var animSpeed = 2;
 var FrameIndex = 0;
 var clips = {
     'idle':{'clipRow':0,'clipLenght':4,'loop':true},
-    'run':{'clipRow':1,'clipLenght':6,'loop':true},
-    'jump':{'clipRow':2,'clipLenght':3,'loop':true},
-    'fall':{'clipRow':3,'clipLenght':0,'loop':true},
+    'run':{'clipRow':1,'clipLenght':5,'loop':true},
+    'jump':{'clipRow':2,'clipLenght':2,'loop':false},
+    'fall':{'clipRow':3,'clipLenght':0,'loop':false},
     'grounded':{'clipRow':4,'clipLenght':1,'loop':false},
     'hit':{'clipRow':5,'clipLenght':4,'loop':false},
     'dead':{'clipRow':6,'clipLenght':4,'loop':false}
@@ -48,22 +48,22 @@ function animateScript(clipRow,clipLenght,loop){
     this.delayTimer += (this.thisFrameTime-this.oldFrameTime)/1000;
    // console.log("FPS = "+this.delayTimer);
     
-    //if FPS reached display next frame
-    if (this.delayTimer>this.framRate)
-    {
-        this.delayTimer =0;
-        this.FrameIndex =this.FrameIndex+1;
-    }
-
+         //if FPS reached display next frame
+         if (this.delayTimer>this.framRate)
+         {
+             this.delayTimer =0;
+             this.FrameIndex =this.FrameIndex+1;
+         }
  
    // console.log('AnimManager FrameIdex '+this.FrameIndex+"  secondsPassed="+this.oldTimeStamp);
 
     let atlasCoord = {'srcX':srcX,'srcY':srcY}
     if (loop){
-        if ((this.FrameIndex)>=clipLenght){this.FrameIndex =0;}
+        if ((this.FrameIndex)>clipLenght){this.FrameIndex = 0;}
     }else{
-        if ((this.FrameIndex)<clipLenght){}else{this.FrameIndex = clipLenght-1;}
+        if ((this.FrameIndex)>clipLenght){this.FrameIndex = clipLenght;}
     }
+    
     
     
     return {atlasCoord};
