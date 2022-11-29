@@ -1,4 +1,13 @@
-
+/*
+var url = "js/level1.json";         
+$.getJSON(url, function (data) {
+    $.each(data, function (key, model) {
+        if (model.key == "layers") {
+            console.log('level1 '+model.value)
+        }
+    })
+});
+*/
 var levelBounds = {'x':0,'y':0,'width':0,'height':0};
 
 
@@ -20,7 +29,7 @@ class Rectangle{
 }
 class levelTile  {    
     constructor() {
-        this.name = 'Tile';
+        this.id = '';
         this.x = 0;
         this.y = 0;
         this.width = 10;
@@ -35,104 +44,152 @@ class levelTile  {
         }
       }
 };
-var levelTileMaps = [];
+var levelMap = [];
+var colliderMap = [];
 var tileSize = {x:50,y:50};
 var worldSize = {x:18,y:6};
+//atlas coords
+var spriteSheet = new Image();
+spriteSheet.src = 'ressources/Terrain.png';
+this.srcX = 0;
+this.srcY = 0;
+this.width  = 64;
+this.height = 40;
 
-                
+var tileSet = null;
 
+function levelManager(){
 
-
-function Level( lvlNumber )
-{
-    levelBounds = {'x':0,'y':0,'width':canvas.width,'height':canvas.height};
-    this.bisInit = false;
-    this.xOffset = 0;
-    this.yOffset = 0;
-    this.worldMap = [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                     1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                     1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                     1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                     1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,
-                     1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,
-                     1,0,0,0,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,
-                     1,1,0,0,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,
-                     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-                     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-                     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-   // createTile(0,300,100,300,'collider', '#cc8539');
-    //createTile(0,canvas.height-75,canvas.width/2,100,'collider','#498f4b');//ground
-  /*  createTile(canvas.width-100,0,100,canvas.height-100,'collider','#8f6335');//trunc
-    createTile(canvas.width/3-50,canvas.height-100,300,50,'collider','#8f6335');//bloc
-    createTile(canvas.width/3+150,canvas.height-150,50,50,'collider','#8f6335');//bloc
-    createTile(canvas.width/3+150,canvas.height-300,50,50,'collider','#8f6335');//bloc*/
+    console.log( new Date());
+    let url = 'js/level1.json';
+    let tilesetUrl = 'js/terrainTileSet.json';
+    let lvl = null;
     
-    this.buildLevel = function(map){
-        xOffset = 0;
-        yOffset = 0;
-        for (let i = 0; i < map.length; i++) 
-        {
-            if (map[i] == 0)
-            {
+    ///////////
+    //Loading JSON files
+    //////////
+    $(document).ready(function(){
+        $.getJSON(tilesetUrl, function(data){
+            tileSet = data;
+            console.log("tileSet Loaded !  "+data.tiles.length); // Prints: Harry
+           // console.log(data.height); // Prints: 14
+            
+            //BuildTheLevel(data);
+        }).fail(function(){
+            console.log("An error has occurred.");
+        });
     
-            } else if (map[i] == 1)
-            {
-                //console.log('buildLevel i '+i+' worldSize.x ='+tileSize.y);
-
-                createTile(xOffset,yOffset,tileSize.x,tileSize.y,'collider','#33323d');
-            } 
+        $.getJSON(url, function(data){
+            lvl = data;
+            console.log(data.layers); // Prints: Harry
+            console.log(data.height); // Prints: 14
+            console.log('level Loaded ! '+data.layers[0].data.length);
+            BuildTheLevel();
+        }).fail(function(){
+            console.log("An error has occurred.");
+        });
+    });
+    ///////////
+    //Building the level
+    //////////
+    function BuildTheLevel(){
+        console.log('BuildTheLevel !'+lvl.layers[0].data);
+        let map = lvl.layers[0].data;
+        let curTilePos = {x:0,y:0};
+        let tileWidth  = lvl.tilewidth;
+        let tileHeight = lvl.tileheight;
+        let lvlWidth   = lvl.layers[0].width;
+        let lvlHeight  = lvl.layers[0].height;
         
-            if (xOffset<=worldSize.x*tileSize.x)
-            {
-                xOffset += tileSize.x; 
-            }
-            else{
-                xOffset  = 0;
-                yOffset  += tileSize.y;
+        let index = 0;
+        //console.log('lvlWidth =  '+lvlWidth+" lvlHeight = "+lvlHeight);
+        for (let i = 0; i <= lvlHeight; i++) {
+            //curTilePos.x = 0;
+            console.log('ligne : '+i);
+           // curTilePos.y +=1;
+            for (let j = 0; j < lvlWidth; j++) {
+                if (index<map.length)
+                {
+                    let id = map[index]; 
+                    console.log('i =  '+i+" j = "+j +" index="+index+" id= "+id);//tileSet.tiles[id]);
+                    let tileAttributs = tileSet.tiles[id];
+                    //tileSet.tiles[id]);
+                    //console.log('colliderMap size =  '+colliderMap.length);
+                    curTilePos.x = j*tileWidth;
+                    curTilePos.y = i*tileHeight;
+                    //createTile (j*tileWidth,i*tileHeight,tileWidth,tileHeight,'collider',tileSet.tiles[id]);
+                                        
+                        createTile (j*tileWidth,i*tileHeight,tileWidth,tileHeight,tileSet.tiles[id].class,id);
+                    
+                    curTilePos.x += 1; 
+                    index+=1
+                }
             }
         }
-        this.bisInit = true;
-        //createTile(350,canvas.height-150,200,100,'collider','#498f4b');
-        //levelTileMaps = [];
-    }
+    } 
     
-   // createTile(canvas.width/3*2-200,canvas.height-150,100,20,'collider','#8f6335');//bloc
-  //  createTile(100,canvas.height-150,200,100,'collider','#498f4b');//ground
-   // createTile(350,canvas.height-150,200,100,'collider','#498f4b');//ground
-    this.draw = function(){
-        if (!this.bisInit)
-        {
-            console.log('this.bisInit! '+this.bisInit );
-            this.buildLevel(this.worldMap);
-            this.bisInit=true;
-    
-        }
-        for (let index = 0; index < levelTileMaps.length; index++) {
-            const tile = levelTileMaps[index];
-            ctx.beginPath();
-            ctx.fillStyle = tile.color;
-            ctx.lineWidth = 2;
-            ctx.fillRect(tile.x,tile.y, tile.width, tile.height);  
-            }
 
+    function createTile (x,y,w,h,type,id) {
+        //
+        console.log('createTile =  '+id+" type = "+type);
+        newTile = new levelTile();
+        newTile.id = id;
+        newTile.x = x;
+        newTile.y = y;
+        newTile.width = w;
+        newTile.height = h;
+        newTile.type = type;
+        newTile.color = 'blue';
+        newTile.hitbox = new Rectangle(this.x,this.y,this.width,this.height);
+        if (newTile.type == "collider" ) 
+        {colliderMap.push(newTile);newTile.color = 'red'; }
+        levelMap.push(newTile);
+        //else{colliderMap.push(newTile);}
+        
     }
-    console.log('start setup level '+levelTileMaps.length);
     
-    
+
+
+
+
+    this.draw = function(){
+        //tileSet[Image]
+        for (let i = 0; i < levelMap.length; i++) {
+            let tile = levelMap[i];
+            //console.log('uvCoord =  '+tile.id);
+            if (tileSet.tiles[tile.id]!=null && tileSet.tiles[tile.id]!=undefined){
+                if (tileSet.tiles[tile.id].class == 'collider')
+                {
+                    let uvCoord =  getUVCoords(tile.id);
+                    //tileSet.tiles[tile.id].
+                    
+                    ctx.beginPath();
+                    ctx.fillStyle = tile.color;
+                    ctx.lineWidth = 2;
+                    //ctx.fillRect(tile.x,tile.y, tile.width, tile.height);  
+                    ctx.drawImage(spriteSheet, uvCoord.x,uvCoord.y, tile.width, tile.height, tile.x, tile.y,tile.width, tile.height, this.width, this.height);
+                }
+            }
+        } 
+    }
 }
-///creating tiles
-function createTile (x,y,w,h,type,col) {
+
+
+
+
+
+
+  function getTileAttributs(id){
+    //level[]
+
+  }
+
+//parse CSV
+//var levelData = JSON.parse(level1);
+ //alert(levelData['layers']['data'].name);
+ /*alert(mydata[0].age);
+ alert(mydata[1].name);
+ alert(mydata[1].age);*/
     //
-    newTile = new levelTile();
-    newTile.x = x;
-    newTile.y = y;
-    newTile.width = w;
-    newTile.height = h;
-    newTile.type = type;
-    newTile.color = col;
-    newTile.hitbox = new Rectangle(this.x,this.y,this.width,this.height);
-    levelTileMaps.push(newTile);
-    console.log('levelTileMaps size =  '+levelTileMaps.length);
-}
 
 

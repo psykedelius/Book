@@ -105,11 +105,35 @@ iframe{
 
 
 
+
 #clipping{
     background: white;
     fill: white;
 }
 .threeJS_bg{
-    background: radial-gradient(circle at 150%, #333, #333 10%, rgb(15, 15, 15) 155%, #333 75%);
-    clip-path: polygon(0 15%, 100% 7%, 100% 88%, 0 82%);
+  /*  background: radial-gradient(circle at 150%, #333, #333 10%, rgb(15, 15, 15) 155%, #333 75%);
+    clip-path: polygon(0 15%, 100% 7%, 100% 88%, 0 82%);*/
+}
+
+.navbar{
+    height : 100px;
+    max-height : 100px;
+    position: relative;
+}
+.navbar-brand{
+    
+    background-image: url('/img/psykedelius.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 80px;
+    
+    width: 80px;
+}
+
+.miniMode{
+    height:50px;
+}
+
+.maxiMode{
+    height:100px;
 }

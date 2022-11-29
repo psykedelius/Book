@@ -88,15 +88,16 @@
       let correctedPos = {'x':0,'y':0};
       let collidingBlocks = [] ;
         let offsetX = 25;
+        let offsetY = 0;
         let playerRect ={ x:this.ScreenPosx+this.x_velocity,
                           y:this.ScreenPosy,
                           width:this.width,
                           height:this.height}
 
         hitBoxRect ={     x:playerRect.x+offsetX,
-                          y:playerRect.y+20,
+                          y:playerRect.y+offsetY,
                           width:playerRect.width-offsetX*2,
-                          height:playerRect.height-26}
+                          height:playerRect.height-offsetY}
        // ctx.fillStyle = 'orange';
        // ctx.fillRect(hitBoxRect.x,hitBoxRect.y,hitBoxRect.width,hitBoxRect.height);
   
@@ -122,9 +123,9 @@
                           'top':false,
                           'down':false}
         //for each collider in the map //
-        for (let index = 0; index < levelTileMaps.length; index++) 
+        for (let index = 0; index < colliderMap.length; index++) 
         {
-          let curTile  = levelTileMaps[index];
+          let curTile  = colliderMap[index];
           let tileRect ={ x:curTile.x,
                           y:curTile.y,
                           width:curTile.width,
@@ -174,7 +175,7 @@
                 }
                 if (checkIsVerticalCollision(verticalRect,tileRect)==1)
                 {
-                  collisionDatas.up=true;
+                  collisionDatas.top=true;
                   hitBoxRect.y = tileRect.y + tileRect.height;
                  // this.ScreenPosy = tileRect.y-this.height;
                   ctx.fillStyle = 'yellow';
@@ -186,8 +187,9 @@
 
 
         //End For Loop
-        if (collisionDatas.up==true){
+        if (collisionDatas.top==true){
           this.y_velocity = 0;
+          this.jumping = false;
         }
         if (collisionDatas.down==true){
           this.grounded =  true;
@@ -203,12 +205,13 @@
         }
 
           hitBoxRect.x-= offsetX;
+          hitBoxRect.y -= offsetY;
           this.ScreenPosx = Math.round( hitBoxRect.x) ;
         
         let i= 1;
         displayText('playerPos = '+this.ScreenPosx+'/'+this.ScreenPosy,20,25*i);i+=1;
         displayText( 'grounded = '+collisionDatas.down,20,25*i);i+=1;
-        displayText('collisionDatas left = '+collisionDatas.left+'  right = '+collisionDatas.right,20,25*i);i+=1;
+        displayText('collisionDatas top = '+collisionDatas.top+'  right = '+collisionDatas.right,20,25*i);i+=1;
         //displayText(('under! = '+ (levelTileMaps[0].y-hitBoxRect.y+hitBoxRect.height)),20,25*i);i+=1;
         //displayText(('range! = '+ (hitBoxRect.x + hitBoxRect.width)+' >= '+levelTileMaps[0].x +' && '+ hitBoxRect.x+' <= '+(levelTileMaps[0].x+levelTileMaps[0].width)),20,25*i);i+=1;
         displayText(('fps! = '+ deltaTime),20,25*i);i+=1;

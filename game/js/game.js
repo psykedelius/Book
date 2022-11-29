@@ -37,7 +37,7 @@ window.onload = function(e) {
   //draw on the canvas
   ctx.fillStyle = "white";
   ctx.fillRect(0,0,canvas.width,canvas.height);
-  level = new Level( 1 );
+  level = new levelManager(  );
   lastFrameTime();
 }
 
