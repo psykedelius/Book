@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="left-up" width="20" height="10" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#6496dc" nextlayerid="2" nextobjectid="1">
+ <editorsettings>
+  <export target="../js/level1.json" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" source="../../../Game/tiled/terrain.tsx"/>
+ <layer id="1" name="terrain" width="20" height="10">
+  <properties>
+   <property name="uvCoords" type="class" propertytype="uvCoords"/>
+  </properties>
+  <data encoding="csv">
+55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,
+55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,
+55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,
+55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,
+55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,
+55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,
+55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,
+2,2,2,2,3,55,55,1,2,2,2,3,55,55,55,55,55,55,55,55,
+19,19,19,19,24,2,2,25,19,19,19,24,2,2,2,2,2,2,2,2,
+19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19
+</data>
+ </layer>
+</map>

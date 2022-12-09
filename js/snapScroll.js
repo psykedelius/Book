@@ -17,6 +17,8 @@ const callback = (entries, observer) => {
   });
 };
 
+let test = ['21','211','55','66'];
+test.le
 const observer = new IntersectionObserver(callback, options);
 
 sections.forEach((section, index) => {

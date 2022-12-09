@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./css/main.css" rel="stylesheet">
+    
+
     <!--fonts-->
-    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=lato' rel='stylesheet'>
     <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-<!-- JavaScript Bundle with Popper -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">  
+    <script src="https://kit.fontawesome.com/517db9155d.js" crossorigin="anonymous"></script>
+    <!-- JavaScript Bundle with Popper -->
 
 
 <style>
   body{
-    font-family: 'Roboto';
+    font-family: 'lato';
     /*padding-top: 70px;*/
   }
   .header{
@@ -60,11 +63,12 @@
 
 
 <body>
-
   
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-danger" id="navbarContainer" >
-      <div class="container-fluid "style="position: relative;" >
-          <a class="navbar-brand bg-warning" href="#"></a>
+  <!----------->
+  <!--NAVBAR-->
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top   navBarLarge" id="navbarContainer" >
+      <div class="container-fluid  align-self-end navBarContent "style="position: relative;" id="navBarContent" >
+          <a class="navbar-brand" href="#"></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
               aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
@@ -72,34 +76,106 @@
           <div class="collapse navbar-collapse container  align-self-end" style="min-height: 30px;" id="navbarCollapse">
               <ul class="navbar-nav  me-end mb-2 mb-md-0 ">
                   <li class="nav-item mx-3">
-                      <a class="nav-link active" aria-current="page" href="#">Home</a>
+                      <a class="nav-link active" aria-current="page" href="#">Hello</a>
                   </li>
                   <li class="nav-item mx-3">
-                      <a class="nav-link" href="#">Link 1</a>
+                      <a class="nav-link" href="#">Dev works</a>
                   </li>
                   <li class="nav-item mx-3">
-                      <a class="nav-link" href="#">Link 2</a>
+                      <a class="nav-link" href="#">CG works</a>
                   </li>
                   <li class="nav-item mx-3">
-                      <a class="nav-link" href="#">Link 3</a>
+                      <a class="nav-link" href="#">Contact</a>
                   </li>
               </ul>
           </div>
       </div>
   </nav>
 
-
+  <!----------->
+  <!--CONTENT-->
   <iframe  src="./modules/intro.html"  style="width:100%;height:100vh;display:block;" scrolling="no" frameborder="0"></iframe>
-  <embed src="./modules/gallery.html"
-  style="width:100%;height: 33vw;display:block;overflow:none;">
-  
-  
-  <iframe src="./modules/intro.html"   style="width:100%;height:100vh;display:block;" scrolling="no" frameborder="0"></iframe>
+    <!-- Prologue Section -->
+    <section id="prologue">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 text-center mt-3">
+                  <h2 class="section-heading"></h2>
+                  <h3 class="section-subheading text-muted"></h3>
+              </div>
+          </div>
+          <div class="row text-center">
+              <div class="col-md-4">
+                  <span class="fa-stack fa-4x">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      <i class="fa fa-file-code-o fa-stack-1x fa-inverse"></i>
+                  </span>
+                  <h4 class="prologue-heading">Technical Skills</h4>
+                  <p class="text-muted">Unity3D, C#, javascript, HTML</p>
+              </div>
+              <div class="col-md-4">
+                  <span class="fa-stack fa-4x">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      <i class="fa fa-graduation-cap fa-stack-1x fa-inverse"></i>
+                  </span>
+                  <h4 class="prologue-heading">Education</h4>
+                  <p class="text-muted">CG : ESRA Bretagne<br>Dev : Studi Graduate développeur Angular</p>
+              </div>
+              <div class="col-md-4">
+                  <span class="fa-stack fa-4x">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      <i class="fa fa-gears fa-stack-1x fa-inverse"></i>
+                  </span>
+                  <h4 class="prologue-heading">Hobbies</h4>
+                  <p class="text-muted">Science, Anime, Manga, Violin, Painting, Games, Arts and Craft, Music, Keyboard Piano, Writing, Reading.</p>
+              </div>
+          </div>
+      </div>
+  </section>
 
+  <!--Gallerie-->
+  <section>
+    <embed src="./modules/gallery.html"  style="width:100%;height: 33vw;display:block;overflow:none;">
 
- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </section>
+  <!--Spacer-->
+      <div class="container-fluid separator " style="transform: rotate(0deg);"></div>
+      <iframe  src="./modules/masonry.html"  style="width:100%;height:100vh;display:block;" scrolling="no" frameborder="0"></iframe>
+      <!---------->
+      <section>
+        <iframe  src="./modules/CV.html"  style="width:100%;height:100vh;display:block;" scrolling="no" frameborder="0"></iframe>
+
+        </section>
+
+  <!--FOOTER-->
+  <footer class="bg-dark text-center text-white">
+    
+    <!-- Grid container -->
+    <div class="container p-4 pb-0">
+      <!-- Section: Social media -->
+      <section class="mb-4">
+        <!-- Linkedin -->
+        <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i class="fab fa-linkedin-in"></i></a>
+  
+        <!-- Github -->
+        <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button" ><i class="fab fa-github"></i ></a>
+      </section>
+      <!-- Section: Social media -->
+    </div>
+    <!-- Grid container -->
+  
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+     <!-- <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>-->
+    </div>
+    <!-- Copyright -->
+  </footer>
+
+  
+  <!----------->
+  <!--SCRIPTS-->
+  <script src="./js/navBarMgr.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 </body>
 
 

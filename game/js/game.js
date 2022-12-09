@@ -18,37 +18,42 @@ window.onload = function(e) {
 
   canvas = document.getElementById('game-canvas');
   var parent = document.getElementById("parent");
-  canvas.width = parent.offsetWidth;
-  canvas.height = parent.offsetHeight;
+
+  canvas.width = 480;//parent.offsetWidth;
+  canvas.height = 200;//parent.offsetHeight;
   ctx = canvas.getContext('2d');
   
   //layer2 = document.getElementById("layer2");
   //ctx2 = layer2.getContext("2d");
   //Setup key Listeners
-
-  //Create Player
-  player = new Player (200,100);
-
-  document.addEventListener('keydown', player.updateKeyDict);
-  document.addEventListener('keyup', player.updateKeyDict);
+  loadLevelData();
   //start Game Loop
  // gameLoop = setInterval(step,1000/30);
   //requestAnimationFrame(step);
   //draw on the canvas
   ctx.fillStyle = "white";
   ctx.fillRect(0,0,canvas.width,canvas.height);
-  level = new levelManager(  );
+  //new levelManager(  );
+    //Create Player
+   // player = new Player (200,100);
+  //draw on the canvas
+  ctx.fillStyle = "white";
   lastFrameTime();
+  var tester  = test();
+  
 }
 
+function*test() {
+  
+  yield;
+  console.log('First I got: ' + x);
+  yield;
+  lastFrameTime();
+};
 
 function step (timestamp) {
 
-  
-  //deltaTime = 
-  
-  //Draw everything
-  //draw();
+
   lastFrameTime();
 }
 
@@ -65,15 +70,36 @@ function lastFrameTime(){
   requestAnimationFrame( lastFrameTime, fps );
 }
 
+function loadingComplete()
+{
+
+
+}
 function draw() {
   //clear the canvas
-  ctx.fillStyle = "white";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  level.draw();
-  
-  player.draw();
-  
+  ctx.clearRect(0,0, canvas.width,canvas.height);
+  ctx.save();
 
+
+
+ // ctx.fillStyle = "white";
+  //ctx.fillRect(0,0,canvas.width,canvas.height);
+ 
+  //if (isLevelReady) { level.draw();}
+
+  if (typeof( player)!="undefined")
+  {   
+    cameraOffset = getCameraOffset();
+    ctx.translate(-cameraOffset.x, cameraOffset.y);
+    if (isLevelReady) { level.draw();}
+
+    
+  
+    
+    player.draw();
+  }
+
+  ctx.restore();
 }
 
 

@@ -1,0 +1,90 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "level1.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "Tous les Fichiers (*)",
+    "fileStates": {
+        "E:/Projets_perso/book/WEB/Book/game/js/level1.json": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "level01.js": {
+            "scale": 1.0746875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320.09305030532136,
+                "y": 160.5117766792672
+            }
+        },
+        "level01.tmj": {
+            "scale": 1.0746875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 318.69729572550153,
+                "y": 160.5117766792672
+            }
+        },
+        "level1.json": {
+            "scale": 0.8980468749999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 319.02566333188344,
+                "y": 6.681165724227924
+            }
+        },
+        "level1.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 319.5,
+                "y": 23
+            }
+        },
+        "leveltest.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 339.33333333333326,
+                "y": 451.33333333333326
+            }
+        },
+        "terrain.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.exportedFilePath": "E:/Projets_perso/book/WEB/Book/game/js",
+    "last.imagePath": "E:/Projets_perso/book/WEB/Game/Ressources/woods/Treasure Hunters/Palm Tree Island/Sprites/Terrain",
+    "lastUsedTilesetExportFilter": "Fichiers de jeu de tuiles JSON (*.tsj *.json)",
+    "map.height": 10,
+    "map.lastUsedExportFilter": "Fichiers de carte JSON (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "map.renderOrder": null,
+    "map.width": 20,
+    "openFiles": [
+        "leveltest.tmx",
+        "terrain.tsx",
+        "level1.json",
+        "level01.tmj",
+        "level1.tmx"
+    ],
+    "project": "level1.tiled-project",
+    "property.type": "uvCoords",
+    "recentFiles": [
+        "leveltest.tmx",
+        "terrain.tsx",
+        "level1.json",
+        "level01.tmj",
+        "level1.tmx",
+        "E:/Projets_perso/book/WEB/Book/game/js/level1.json",
+        "level01.js"
+    ],
+    "tileset.lastUsedFormat": "json"
+}

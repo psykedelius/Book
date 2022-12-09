@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="left-up" width="20" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
+ <editorsettings>
+  <export target="../js/level1.json" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" source="../js/terrainTileSet.json"/>
+ <tileset firstgid="86" source="../../../Game/tiled/terrain.tsx"/>
+ <tileset firstgid="171" source="terrain.tsx"/>
+ <tileset firstgid="256" source="terrainTileSet.tsx"/>
+ <layer id="1" name="terrain" width="20" height="10">
+  <properties>
+   <property name="uvCoords" type="class" propertytype="uvCoords"/>
+  </properties>
+  <data encoding="csv">
+86,87,87,87,88,137,137,137,137,137,137,137,137,137,137,137,137,137,137,234,
+103,104,104,92,163,156,137,137,137,137,137,137,137,137,137,137,137,137,137,234,
+103,104,104,105,137,137,137,137,137,187,137,137,137,137,137,137,137,137,137,234,
+103,104,104,96,155,156,137,137,137,137,137,137,137,272,137,137,137,137,137,234,
+120,121,121,122,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,234,
+137,137,137,137,137,137,137,137,137,137,237,238,137,137,137,137,137,137,137,234,
+137,137,137,137,137,137,137,137,137,137,188,190,232,172,172,172,172,172,172,203,
+87,87,87,87,88,0,0,86,87,87,87,161,189,189,189,189,189,189,189,189,
+104,104,104,104,105,0,0,103,104,104,104,105,189,189,189,189,189,189,189,189,
+104,104,104,104,105,0,0,103,104,104,104,105,189,189,189,189,189,189,189,189
+</data>
+ </layer>
+</map>
